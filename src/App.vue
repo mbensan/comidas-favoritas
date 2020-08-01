@@ -1,17 +1,34 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Las comidas favoritas</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="sass.html">Sass</a></li>
+          <li><a href="badges.html">Components</a></li>
+          <li><a href="collapsible.html">JavaScript</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <Persona nombre="JP" :comidas="['Asado', 'Hamburguesas']" />
+        <Persona nombre="Gaby" :comidas="['Sushi', 'Lasagna']" />
+        <Persona nombre="Pablo" :comidas="['Papapletos', 'Pizza']" />
+        <Persona nombre="Mati" :comidas="['Lasagna', 'Albacora', 'Nutella']" />
+        <Persona nombre="Clau" :comidas="['Papafritas']" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Persona from './components/Persona.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Persona
   }
 }
 </script>
@@ -24,5 +41,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.collection-item {
+  color: #616161;
+  font-weight: bold;
 }
 </style>
