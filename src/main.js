@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VueFirestore from 'vue-firestore';
 import App from './App.vue'
 
 Vue.config.productionTip = false
 
+// Acá se activan las librerías
 Vue.use(Vuex)
+Vue.use(VueFirestore, {key: 'id'});
 
 const store = new Vuex.Store({
   state: {

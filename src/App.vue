@@ -15,14 +15,49 @@
         <Persona v-for="(persona, i) in personas" :key="i" :nombre="persona.nombre" :comidas="persona.comidas"/>
       </div>
     </div>
+    <div class="row">
+      <div class="col s12 m12">
+        <h3>Mis Mascotas:</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Edad</th>
+              <th>Vacunas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="mascota in mascotas" :key="mascota.id">
+              <td>{{ mascota.nombre }}</td>
+              <td>{{ mascota.edad }}</td>
+              <td><span v-for="(vacuna, i) in mascota.vacunas" :key="i">{{ vacuna }} </span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { db } from '@/firebase';
 import Persona from './components/Persona.vue'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      mascotas: []
+    }
+  },
+  firestore() {
+    return {
+      mascotas: db.collection('mascotas')
+    }
+  },
+  mounted() {
+    console.log(this.mascotas)
+  },
   components: {
     Persona
   },
@@ -42,7 +77,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 .collection-item {
   color: #616161;
