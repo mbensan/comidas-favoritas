@@ -12,11 +12,7 @@
     </nav>
     <div class="container">
       <div class="row">
-        <Persona nombre="JP" :comidas="['Asado', 'Hamburguesas']" />
-        <Persona nombre="Gaby" :comidas="['Sushi', 'Lasagna']" />
-        <Persona nombre="Pablo" :comidas="['Papapletos', 'Pizza']" />
-        <Persona nombre="Mati" :comidas="['Lasagna', 'Albacora', 'Nutella']" />
-        <Persona nombre="Clau" :comidas="['Papafritas']" />
+        <Persona v-for="(persona, i) in personas" :key="i" :nombre="persona.nombre" :comidas="persona.comidas"/>
       </div>
     </div>
   </div>
@@ -29,7 +25,13 @@ export default {
   name: 'App',
   components: {
     Persona
-  }
+  },
+  // para traernos los datos del almacén usamos las propiedades calculadas
+  computed: {
+    personas: function() {
+      return this.$store.state.personas
+    }
+  },
 }
 </script>
 
