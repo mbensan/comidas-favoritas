@@ -8,6 +8,7 @@
             <th>Nombre</th>
             <th>Edad</th>
             <th>Vacunas</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -17,6 +18,10 @@
             
             <td>{{ mascota.edad }}</td>
             <td><span v-for="(vacuna, i) in mascota.vacunas" :key="i">{{ vacuna }} </span></td>
+            <td>
+              <a href="#" class="boton-borrar" @click.prevent="borrar_mascota(mascota.id)"><i class="material-icons">delete</i></a>
+              <router-link :to="{path: `/pets/${mascota.id}/edit`}"><i class="material-icons">edit</i></router-link>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -71,6 +76,12 @@ export default {
       this.nueva_nombre = '';
       this.nueva_edad = '';
       this.nueva_vacunas = '';
+    },
+    borrar_mascota(id_mascota) {
+      console.log(id_mascota);
+      const respuesta = confirm('¿Desea borrar esta mascota?');
+      if (respuesta == false) { return; }
+      db.collection("pets").doc(id_mascota).delete();
     }
   },
   firestore() {
@@ -92,5 +103,8 @@ export default {
 .collection-item {
   color: #616161;
   font-weight: bold;
+}
+.boton-borrar > i {
+  color: #d32f2f;
 }
 </style>
