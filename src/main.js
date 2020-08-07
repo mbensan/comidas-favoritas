@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueFirestore from 'vue-firestore';
 import App from './App.vue'
+import router from '@/router';
 
 Vue.config.productionTip = false
 
@@ -32,5 +33,6 @@ const store = new Vuex.Store({
 
 new Vue({
   render: h => h(App),
+  router,
   store
 }).$mount('#app')
