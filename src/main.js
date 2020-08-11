@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+// son para la autentificación
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
 import VueFirestore from 'vue-firestore';
 import App from './App.vue'
 import router from '@/router';
@@ -18,7 +22,9 @@ const store = new Vuex.Store({
       {nombre:"Pablo", comidas: ['Papapletos', 'Pizza']},
       {nombre:"Clau", comidas: ['Papafritas']},
       {nombre: 'Matias', comidas: ['sushi', 'pescado']}
-    ]
+    ],
+    user: null,
+    error: null
   },
   mutations: {
     agregar_comida_persona(state, datos) {
@@ -27,6 +33,31 @@ const store = new Vuex.Store({
       const persona = state.personas.find(per => per.nombre == datos.nombre);
       // después le agregamos una nueva comida
       persona.comidas = [...persona.comidas, datos.nueva_comida]
+    },
+    // mutación para cambiar el 'user'
+    set_user(state, new_user) {
+      state.user = new_user;
+    },
+    // mutación para cambiar el error
+    set_error(state, new_error) {
+      state.error = new_error;
+    }
+  },
+  actions: {
+    register(context, datos) {
+      firebase.auth().createUserWithEmailAndPassword(datos.email, datos.password)
+      // en el caso de que el registro sea exitoso
+      .then(function (response) {
+        console.log(response);
+        context.commit('set_error', null);
+        context.commit('set_user', datos.email);
+        router.push('/');
+      })
+      // en el caso de que ocurra un error
+      .catch(function (error) {
+        context.commit('set_error', error.message);
+        context.commit('set_user', null);
+      });
     }
   }
 })
@@ -36,3 +67,9 @@ new Vue({
   router,
   store
 }).$mount('#app')
+/*
+Error from chokidar (C:\): Error: EBUSY: resource busy or locked, lstat 'C:\hiberfil.sys'
+Error from chokidar (C:\): Error: EBUSY: resource busy or locked, lstat 'C:\pagefile.sys'
+Error from chokidar (C:\): Error: EBUSY: resource busy or locked, lstat 'C:\swapfile.sys'
+
+*/
