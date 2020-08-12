@@ -8,6 +8,12 @@
       <form action="" @submit.prevent="register">
         <div class="row">
           <div class="input-field col s12">
+            <input type="text" class="validate" required v-model="register_name">
+            <label for="name">Nombre</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
             <input type="email" class="validate" required v-model="register_email">
             <label for="email">Email</label>
           </div>
@@ -67,7 +73,8 @@ export default {
       // variables para el registro
       register_email: '',
       register_password: '',
-      register_password_again: ''
+      register_password_again: '',
+      register_name: ''
     }
   },
   computed: {
@@ -89,7 +96,11 @@ export default {
         return;
       }
       // ahora podemos registrar al usuario, llamando a la acción correspondiente
-      const datos = {email: this.register_email, password: this.register_password};
+      const datos = {
+        email: this.register_email,
+        password: this.register_password,
+        name: this.register_name
+      };
       this.$store.dispatch('register', datos)
     }
   }

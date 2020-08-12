@@ -49,15 +49,32 @@ const store = new Vuex.Store({
       // en el caso de que el registro sea exitoso
       .then(function (response) {
         console.log(response);
+        // si el registro es exitoso, entonces le agrego el nombre
+        firebase.auth().currentUser.updateProfile({
+          displayName: datos.name
+        })
+      })
+      .then((response) => {
+        // guardamos nuestros datos en el almacén
+        console.log(response)
         context.commit('set_error', null);
-        context.commit('set_user', datos.email);
+        context.commit('set_user', {email: datos.email, name: datos.name});
         router.push('/');
       })
       // en el caso de que ocurra un error
       .catch(function (error) {
+        console.log(error);
         context.commit('set_error', error.message);
         context.commit('set_user', null);
       });
+    },
+    logout(context) {
+      firebase.auth().signOut()
+      .then(() => {
+        context.commit('set_error', null);
+        context.commit('set_user', null);
+        router.push('/login');
+      })
     }
   }
 })

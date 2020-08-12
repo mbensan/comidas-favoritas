@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import firebase from 'firebase/app';
 
 import Comidas from '@/components/Comidas.vue';
 import Login from '@/components/Login.vue';
@@ -10,11 +11,14 @@ import NotFound from '@/components/NotFound.vue';
 
 Vue.use(VueRouter);    // instalamos explícitamente el router
 
-export default new VueRouter({
+const router = new VueRouter({
   routes: [
     {
       path: '/', 
-      component: Comidas
+      component: Comidas,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/login',
@@ -22,7 +26,10 @@ export default new VueRouter({
     },
     {
       path: '/pets',
-      component: Mascotas
+      component: Mascotas,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/pets/:id',
@@ -39,3 +46,16 @@ export default new VueRouter({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+
+  let currentUser = firebase.auth().currentUser;
+  
+  if (to.meta.requiresAuth && currentUser == null) {
+    next('/login')
+  } else {
+    next()
+  }
+})
+
+export default router;
